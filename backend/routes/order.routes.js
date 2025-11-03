@@ -241,7 +241,10 @@ router.put("/:id/status", auth, async (req, res) => {
     }
 
     const { status } = req.body;
-    const order = await Order.findById(req.params.id).populate("user", "name email");
+    const order = await Order.findById(req.params.id).populate(
+      "user",
+      "name email"
+    );
 
     if (!order) {
       return res.status(404).json({

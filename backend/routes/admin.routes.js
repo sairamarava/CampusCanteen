@@ -10,31 +10,37 @@ const PDFDocument = require("pdfkit");
 const archiveDailyOrders = async () => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  
+
   const orders = await Order.find({
     createdAt: {
       $gte: today,
-      $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000)
-    }
+      $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000),
+    },
   });
 
-  const totalRevenue = orders.reduce((sum, order) => sum + order.totalAmount, 0);
-  
-  const orderCounts = orders.reduce((acc, order) => {
-    acc[order.status.toLowerCase()]++;
-    return acc;
-  }, { pending: 0, delivered: 0, cancelled: 0 });
+  const totalRevenue = orders.reduce(
+    (sum, order) => sum + order.totalAmount,
+    0
+  );
+
+  const orderCounts = orders.reduce(
+    (acc, order) => {
+      acc[order.status.toLowerCase()]++;
+      return acc;
+    },
+    { pending: 0, delivered: 0, cancelled: 0 }
+  );
 
   const archive = new DailyOrdersArchive({
     date: today,
     totalOrders: orders.length,
     totalRevenue,
     orderCount: orderCounts,
-    orders: orders.map(order => order._id)
+    orders: orders.map((order) => order._id),
   });
 
   await archive.save();
-  
+
   // Reset pending orders
   await Order.updateMany(
     { status: "Pending" },
@@ -49,7 +55,9 @@ const scheduleDailyArchive = () => {
     now.getFullYear(),
     now.getMonth(),
     now.getDate() + 1,
-    0, 0, 0
+    0,
+    0,
+    0
   );
   const msToMidnight = night.getTime() - now.getTime();
 
@@ -142,14 +150,14 @@ router.get("/orders", adminAuth, async (req, res) => {
     const { status, date } = req.query;
     let query = {};
 
-    if (status && status !== 'all') {
+    if (status && status !== "all") {
       query.status = status;
     }
 
     if (date) {
       // Create date at UTC midnight
-      const startDate = new Date(date + 'T00:00:00Z');
-      const endDate = new Date(date + 'T23:59:59.999Z');
+      const startDate = new Date(date + "T00:00:00Z");
+      const endDate = new Date(date + "T23:59:59.999Z");
       query.createdAt = { $gte: startDate, $lte: endDate };
     }
 
@@ -261,32 +269,31 @@ router.get("/daily-archive/:date", adminAuth, async (req, res) => {
   try {
     const date = new Date(req.params.date);
     date.setHours(0, 0, 0, 0);
-    
-    const archive = await DailyOrdersArchive.findOne({ date })
-      .populate({
-        path: "orders",
-        populate: [
-          { path: "user", select: "name email" },
-          { path: "items.menuItem", select: "name price" }
-        ]
-      });
+
+    const archive = await DailyOrdersArchive.findOne({ date }).populate({
+      path: "orders",
+      populate: [
+        { path: "user", select: "name email" },
+        { path: "items.menuItem", select: "name price" },
+      ],
+    });
 
     if (!archive) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: "No data found for this date" 
+        message: "No data found for this date",
       });
     }
 
     res.json({
       success: true,
-      archive
+      archive,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "Error fetching daily archive",
-      error: error.message
+      error: error.message,
     });
   }
 });
@@ -296,20 +303,19 @@ router.get("/daily-report/:date", adminAuth, async (req, res) => {
   try {
     const date = new Date(req.params.date);
     date.setHours(0, 0, 0, 0);
-    
-    const archive = await DailyOrdersArchive.findOne({ date })
-      .populate({
-        path: "orders",
-        populate: [
-          { path: "user", select: "name email" },
-          { path: "items.menuItem", select: "name price" }
-        ]
-      });
+
+    const archive = await DailyOrdersArchive.findOne({ date }).populate({
+      path: "orders",
+      populate: [
+        { path: "user", select: "name email" },
+        { path: "items.menuItem", select: "name price" },
+      ],
+    });
 
     if (!archive) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: "No data found for this date" 
+        message: "No data found for this date",
       });
     }
 
@@ -347,10 +353,7 @@ router.get("/daily-report/:date", adminAuth, async (req, res) => {
       .moveDown(2);
 
     // Orders Detail
-    doc
-      .fontSize(14)
-      .text("Order Details", { underline: true })
-      .moveDown();
+    doc.fontSize(14).text("Order Details", { underline: true }).moveDown();
 
     archive.orders.forEach((order) => {
       doc
@@ -359,12 +362,14 @@ router.get("/daily-report/:date", adminAuth, async (req, res) => {
         .text(`Customer: ${order.user?.name}`)
         .text(`Status: ${order.status}`)
         .text(`Amount: ₹${order.totalAmount.toFixed(2)}`)
-        .text("Items:")
-        
+        .text("Items:");
+
       order.items.forEach((item) => {
-        doc.text(`  - ${item.menuItem?.name} x ${item.quantity} (₹${item.price})`);
+        doc.text(
+          `  - ${item.menuItem?.name} x ${item.quantity} (₹${item.price})`
+        );
       });
-      
+
       doc.moveDown();
     });
 
@@ -378,7 +383,7 @@ router.get("/daily-report/:date", adminAuth, async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error generating PDF report",
-      error: error.message
+      error: error.message,
     });
   }
 });
@@ -394,13 +399,13 @@ router.get("/orders/report/:date", adminAuth, async (req, res) => {
 
     // Fetch orders for the specified date
     const orders = await Order.find({
-      createdAt: { $gte: date, $lt: endDate }
+      createdAt: { $gte: date, $lt: endDate },
     }).populate("user items.menuItem");
 
     if (!orders || orders.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "No orders found for this date"
+        message: "No orders found for this date",
       });
     }
 
@@ -411,54 +416,58 @@ router.get("/orders/report/:date", adminAuth, async (req, res) => {
       statusCounts: orders.reduce((acc, order) => {
         acc[order.status] = (acc[order.status] || 0) + 1;
         return acc;
-      }, {})
+      }, {}),
     };
 
     // Generate PDF
     const doc = new PDFDocument();
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename=campus-canteen-report-${req.params.date}.pdf`);
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=campus-canteen-report-${req.params.date}.pdf`
+    );
     doc.pipe(res);
 
     // Title and Date
     doc
       .fontSize(24)
-      .text('Campus Canteen', { align: 'center' })
+      .text("Campus Canteen", { align: "center" })
       .fontSize(18)
-      .text(`Daily Report - ${req.params.date}`, { align: 'center' })
+      .text(`Daily Report - ${req.params.date}`, { align: "center" })
       .moveDown(2);
 
     // Daily Summary
     doc
       .fontSize(14)
-      .text('Daily Summary', { underline: true })
+      .text("Daily Summary", { underline: true })
       .moveDown()
       .fontSize(12)
       .text(`Total Orders: ${stats.totalOrders}`)
       .text(`Total Revenue: ₹${stats.totalRevenue.toFixed(2)}`)
       .moveDown()
-      .text('Order Status Breakdown:')
-      .text(`  • Pending: ${stats.statusCounts['Pending'] || 0}`)
-      .text(`  • Delivered: ${stats.statusCounts['Delivered'] || 0}`)
-      .text(`  • Cancelled: ${stats.statusCounts['Cancelled'] || 0}`)
+      .text("Order Status Breakdown:")
+      .text(`  • Pending: ${stats.statusCounts["Pending"] || 0}`)
+      .text(`  • Delivered: ${stats.statusCounts["Delivered"] || 0}`)
+      .text(`  • Cancelled: ${stats.statusCounts["Cancelled"] || 0}`)
       .moveDown(2);
 
     // Order Details
-    doc
-      .fontSize(14)
-      .text('Order Details', { underline: true })
-      .moveDown();
+    doc.fontSize(14).text("Order Details", { underline: true }).moveDown();
 
     orders.forEach((order, index) => {
       doc
         .fontSize(12)
         .text(`Order #${index + 1}: ${order.orderNumber}`)
         .text(`Status: ${order.status}`)
-        .text(`Customer: ${order.user ? order.user.name : 'N/A'}`)
-        .text('Items:');
+        .text(`Customer: ${order.user ? order.user.name : "N/A"}`)
+        .text("Items:");
 
-      order.items.forEach(item => {
-        doc.text(`  • ${item.menuItem ? item.menuItem.name : 'Unknown Item'} x ${item.quantity}`);
+      order.items.forEach((item) => {
+        doc.text(
+          `  • ${item.menuItem ? item.menuItem.name : "Unknown Item"} x ${
+            item.quantity
+          }`
+        );
       });
 
       doc
@@ -471,16 +480,17 @@ router.get("/orders/report/:date", adminAuth, async (req, res) => {
     doc
       .moveDown()
       .fontSize(10)
-      .text(`Report generated on ${new Date().toLocaleString()}`, { align: 'right' });
+      .text(`Report generated on ${new Date().toLocaleString()}`, {
+        align: "right",
+      });
 
     doc.end();
-
   } catch (error) {
-    console.error('PDF generation error:', error);
+    console.error("PDF generation error:", error);
     res.status(500).json({
       success: false,
       message: "Error generating PDF report",
-      error: error.message
+      error: error.message,
     });
   }
 });

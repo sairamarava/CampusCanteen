@@ -17,29 +17,37 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
   const [filterStatus, setFilterStatus] = useState("all");
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const { user } = useAuth();
 
   const handleDateChange = async (date) => {
     if (date === selectedDate) return;
-    
+
     setSelectedDate(date);
     try {
       setLoading(true);
-      const formattedDate = new Date(date).toISOString().split('T')[0];
-      const isToday = formattedDate === new Date().toISOString().split('T')[0];
-      
+      const formattedDate = new Date(date).toISOString().split("T")[0];
+      const isToday = formattedDate === new Date().toISOString().split("T")[0];
+
       const response = await getAllOrders({ date: formattedDate });
       if (response.success) {
         setOrders(response.orders);
         if (response.orders.length > 0) {
-          toast.success(`Loaded ${response.orders.length} orders for ${isToday ? 'today' : formattedDate}`);
+          toast.success(
+            `Loaded ${response.orders.length} orders for ${
+              isToday ? "today" : formattedDate
+            }`
+          );
         } else {
-          toast.info(`No orders found for ${isToday ? 'today' : formattedDate}`);
+          toast.info(
+            `No orders found for ${isToday ? "today" : formattedDate}`
+          );
         }
       }
     } catch (error) {
-      console.error('Error fetching orders:', error);
+      console.error("Error fetching orders:", error);
       toast.error("Failed to fetch orders");
     } finally {
       setLoading(false);
@@ -50,10 +58,10 @@ const AdminDashboard = () => {
     try {
       toast.loading("Generating report...");
       const response = await generateDailyReport(selectedDate);
-      const blob = new Blob([response], { type: 'application/pdf' });
+      const blob = new Blob([response], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.style.display = 'none';
+      const a = document.createElement("a");
+      a.style.display = "none";
       a.href = url;
       a.download = `campus-canteen-report-${selectedDate}.pdf`;
       document.body.appendChild(a);
@@ -63,10 +71,10 @@ const AdminDashboard = () => {
       toast.dismiss();
       toast.success("Report downloaded successfully!", {
         icon: "📊",
-        duration: 3000
+        duration: 3000,
       });
     } catch (error) {
-      console.error('Error generating report:', error);
+      console.error("Error generating report:", error);
       toast.dismiss();
       toast.error("Failed to generate report. Please try again.");
     }
@@ -76,7 +84,7 @@ const AdminDashboard = () => {
     fetchDashboardData(selectedDate);
     const interval = setInterval(() => {
       // Only auto-refresh if viewing today's orders
-      if (selectedDate === new Date().toISOString().split('T')[0]) {
+      if (selectedDate === new Date().toISOString().split("T")[0]) {
         fetchDashboardData(selectedDate);
       }
     }, 30000); // Refresh every 30 seconds
@@ -90,16 +98,16 @@ const AdminDashboard = () => {
         getAdminStats(),
         getAllOrders({ date }),
       ]);
-      
+
       if (statsData.success) {
         setStats(statsData.stats);
       }
-      
+
       if (ordersData.success) {
         setOrders(ordersData.orders);
       }
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
+      console.error("Error fetching dashboard data:", error);
       toast.error("Failed to fetch dashboard data");
     } finally {
       setLoading(false);
@@ -115,7 +123,7 @@ const AdminDashboard = () => {
 
       await updateOrderStatus(orderId, newStatus);
       await fetchDashboardData();
-      
+
       const successMessage = getStatusUpdateMessage(newStatus);
       toast.success(successMessage, {
         duration: 3000,
@@ -242,7 +250,9 @@ const AdminDashboard = () => {
               animate={{ opacity: 1, y: 0 }}
               className="bg-white p-6 rounded-lg shadow-sm"
             >
-              <h3 className="text-gray-500 text-sm font-medium">Total Orders</h3>
+              <h3 className="text-gray-500 text-sm font-medium">
+                Total Orders
+              </h3>
               <p className="text-3xl font-bold text-gray-900">
                 {stats.totalOrders}
               </p>
@@ -257,7 +267,9 @@ const AdminDashboard = () => {
               transition={{ delay: 0.1 }}
               className="bg-white p-6 rounded-lg shadow-sm"
             >
-              <h3 className="text-gray-500 text-sm font-medium">Total Revenue</h3>
+              <h3 className="text-gray-500 text-sm font-medium">
+                Total Revenue
+              </h3>
               <p className="text-3xl font-bold text-gray-900">
                 ₹{stats.totalRevenue.toFixed(2)}
               </p>
@@ -305,11 +317,13 @@ const AdminDashboard = () => {
                     type="date"
                     value={selectedDate}
                     onChange={(e) => handleDateChange(e.target.value)}
-                    max={new Date().toISOString().split('T')[0]}
+                    max={new Date().toISOString().split("T")[0]}
                     className="rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
                   />
                   <button
-                    onClick={() => handleDateChange(new Date().toISOString().split('T')[0])}
+                    onClick={() =>
+                      handleDateChange(new Date().toISOString().split("T")[0])
+                    }
                     className="px-3 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
                     title="View Today's Orders"
                   >
@@ -321,8 +335,8 @@ const AdminDashboard = () => {
                   disabled={loading || orders.length === 0}
                   className={`px-4 py-2 rounded-md flex items-center ${
                     loading || orders.length === 0
-                      ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-green-600 hover:bg-green-700'
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-green-600 hover:bg-green-700"
                   } text-white transition-colors duration-200`}
                 >
                   <span className="mr-2">📊</span>
@@ -381,12 +395,22 @@ const AdminDashboard = () => {
                   <tbody className="bg-white divide-y divide-gray-200">
                     {filteredOrders.length === 0 ? (
                       <tr>
-                        <td colSpan="7" className="px-6 py-8 text-center text-gray-500">
+                        <td
+                          colSpan="7"
+                          className="px-6 py-8 text-center text-gray-500"
+                        >
                           <div className="flex flex-col items-center">
-                            <p className="text-lg mb-2">No orders found for {selectedDate}</p>
-                            {selectedDate !== new Date().toISOString().split('T')[0] && (
+                            <p className="text-lg mb-2">
+                              No orders found for {selectedDate}
+                            </p>
+                            {selectedDate !==
+                              new Date().toISOString().split("T")[0] && (
                               <button
-                                onClick={() => handleDateChange(new Date().toISOString().split('T')[0])}
+                                onClick={() =>
+                                  handleDateChange(
+                                    new Date().toISOString().split("T")[0]
+                                  )
+                                }
                                 className="text-sm text-blue-600 hover:text-blue-800"
                               >
                                 View today's orders instead
@@ -437,11 +461,18 @@ const AdminDashboard = () => {
                             <select
                               value={order.status}
                               onChange={(e) =>
-                                handleStatusUpdate(order._id, e.target.value, order.status)
+                                handleStatusUpdate(
+                                  order._id,
+                                  e.target.value,
+                                  order.status
+                                )
                               }
                               className={`rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black text-sm ${
-                                order.status.toLowerCase() === "delivered" ? "bg-green-50" :
-                                order.status.toLowerCase() === "cancelled" ? "bg-red-50" : ""
+                                order.status.toLowerCase() === "delivered"
+                                  ? "bg-green-50"
+                                  : order.status.toLowerCase() === "cancelled"
+                                  ? "bg-red-50"
+                                  : ""
                               }`}
                             >
                               <option value="Pending">Pending</option>
