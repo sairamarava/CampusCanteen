@@ -230,6 +230,55 @@ router.get("/:id", auth, async (req, res) => {
   }
 });
 
+// Update order status
+router.put("/:id/status", auth, async (req, res) => {
+  try {
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized to update order status",
+      });
+    }
+
+    const { status } = req.body;
+    const order = await Order.findById(req.params.id).populate("user", "name email");
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    const oldStatus = order.status;
+    order.status = status;
+    await order.save();
+
+    // Create notification for status change
+    const notification = new Notification({
+      type: "ORDER_UPDATED",
+      title: "Order Status Updated",
+      message: `Your order #${order.orderNumber} status has been updated to ${status}`,
+      order: order._id,
+      user: order.user._id,
+      isRead: false,
+    });
+    await notification.save();
+
+    res.json({
+      success: true,
+      message: "Order status updated successfully",
+      order,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error updating order status",
+      error: error.message,
+    });
+  }
+});
+
 // Cancel order
 router.post("/:id/cancel", auth, async (req, res) => {
   try {

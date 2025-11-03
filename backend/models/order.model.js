@@ -1,5 +1,24 @@
 const mongoose = require("mongoose");
 
+const dailyOrdersArchiveSchema = new mongoose.Schema({
+  date: {
+    type: Date,
+    required: true,
+    unique: true
+  },
+  totalOrders: Number,
+  totalRevenue: Number,
+  orderCount: {
+    pending: { type: Number, default: 0 },
+    delivered: { type: Number, default: 0 },
+    cancelled: { type: Number, default: 0 }
+  },
+  orders: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Order'
+  }]
+});
+
 const orderSchema = new mongoose.Schema(
   {
     orderNumber: {
@@ -91,4 +110,7 @@ orderSchema.pre("save", function (next) {
   next();
 });
 
-module.exports = mongoose.model("Order", orderSchema);
+const Order = mongoose.model("Order", orderSchema);
+const DailyOrdersArchive = mongoose.model("DailyOrdersArchive", dailyOrdersArchiveSchema);
+
+module.exports = { Order, DailyOrdersArchive };

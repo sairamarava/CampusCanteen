@@ -170,6 +170,16 @@ export const getAdminStats = () => api.get("/admin/stats");
 export const getAllOrders = (params) => api.get("/admin/orders", { params });
 export const updateOrderStatus = (id, status) =>
   api.put(`/admin/orders/${id}/status`, { status });
+export const getDailyOrdersArchive = (date) => api.get(`/admin/orders`, { 
+  params: { date }
+});
+export const generateDailyReport = (date) => 
+  api.get(`/admin/orders/report/${date}`, { 
+    responseType: 'blob',
+    headers: {
+      'Accept': 'application/pdf'
+    }
+  });
 export const addMenuItem = (menuData) => api.post("/admin/menu", menuData);
 export const updateMenuItem = (id, menuData) =>
   api.put(`/admin/menu/${id}`, menuData);

@@ -6,6 +6,10 @@ const notificationSchema = new mongoose.Schema({
     enum: ["NEW_ORDER", "ORDER_UPDATED", "ORDER_CANCELLED"],
     required: true,
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   title: {
     type: String,
     required: true,
