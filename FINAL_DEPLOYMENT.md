@@ -1,9 +1,11 @@
 # 🎯 Campus Canteen - FINAL DEPLOYMENT INSTRUCTIONS
 
 ## 📍 Current Status
+
 Your project has been analyzed and prepared for deployment! Here's what has been configured:
 
 ### ✅ What's Ready
+
 - **Frontend**: React + Vite + Tailwind CSS (builds successfully)
 - **Backend**: Node.js + Express + MongoDB (production-ready)
 - **Database**: MongoDB Atlas (already configured)
@@ -29,14 +31,17 @@ git push -u origin main
 ### STEP 2: Deploy Backend to Render
 
 1. **Go to [render.com](https://render.com)**
+
    - Sign up/login with GitHub
 
 2. **Create New Web Service**
+
    - Click "New" → "Web Service"
    - Connect your GitHub repository
    - Choose your repository
 
 3. **Configure Settings**
+
    ```
    Name: campus-canteen-backend
    Environment: Node
@@ -47,6 +52,7 @@ git push -u origin main
 
 4. **Add Environment Variables**
    Go to Environment tab and add:
+
    ```
    NODE_ENV=production
    PORT=10000
@@ -67,13 +73,16 @@ git push -u origin main
 ### STEP 3: Deploy Frontend to Netlify
 
 1. **Go to [netlify.com](https://netlify.com)**
+
    - Sign up/login with GitHub
 
 2. **Import Project**
+
    - Click "Add new site" → "Import an existing project"
    - Choose GitHub and select your repository
 
 3. **Configure Build Settings**
+
    ```
    Base directory: frontend
    Build command: npm run build
@@ -88,18 +97,23 @@ git push -u origin main
 ### STEP 4: Update API URLs
 
 1. **Update Frontend API URL**
+
    - Go to your code editor
    - Open `frontend/src/services/api.js`
    - Replace the production URL with your actual Render backend URL:
+
    ```javascript
-   const API_URL = process.env.NODE_ENV === 'production' 
-     ? "https://your-actual-backend-name.onrender.com/api"
-     : "http://localhost:5000/api";
+   const API_URL =
+     process.env.NODE_ENV === "production"
+       ? "https://your-actual-backend-name.onrender.com/api"
+       : "http://localhost:5000/api";
    ```
 
 2. **Update Backend CORS**
+
    - Go to Render dashboard → your service → Environment
    - Update `FRONTEND_URL` to your actual Netlify URL:
+
    ```
    FRONTEND_URL=https://your-actual-frontend-name.netlify.app
    ```
@@ -113,10 +127,12 @@ git push -u origin main
 ## 🔧 Testing Your Deployment
 
 ### 1. Test Backend
+
 Visit: `https://your-backend.onrender.com/health`
 Should return: `{"status":"OK","message":"Campus Canteen Backend is running"}`
 
 ### 2. Test Frontend
+
 1. Visit your Netlify URL
 2. Test user registration/login
 3. Browse menu items
@@ -124,6 +140,7 @@ Should return: `{"status":"OK","message":"Campus Canteen Backend is running"}`
 5. Test order placement
 
 ### 3. Test Integration
+
 - Ensure frontend can communicate with backend
 - Check if data flows correctly between components
 
@@ -132,6 +149,7 @@ Should return: `{"status":"OK","message":"Campus Canteen Backend is running"}`
 ## 📊 URLs You'll Have
 
 After successful deployment:
+
 - **Frontend**: `https://your-app-name.netlify.app`
 - **Backend**: `https://your-backend-name.onrender.com`
 - **Database**: MongoDB Atlas (already running)
@@ -141,18 +159,22 @@ After successful deployment:
 ## 🐛 Common Issues & Quick Fixes
 
 ### 1. CORS Errors
+
 - **Problem**: Frontend can't connect to backend
 - **Solution**: Ensure `FRONTEND_URL` in backend matches your Netlify URL exactly
 
 ### 2. Build Failures
+
 - **Problem**: Netlify build fails
 - **Solution**: Check if all dependencies are in package.json
 
 ### 3. API Connection Issues
+
 - **Problem**: 500/404 errors from API
 - **Solution**: Verify backend URL in frontend code is correct
 
 ### 4. Database Connection
+
 - **Problem**: Backend can't connect to MongoDB
 - **Solution**: Check MongoDB URI and IP whitelist (use 0.0.0.0/0)
 
@@ -161,6 +183,7 @@ After successful deployment:
 ## 🎉 Success Indicators
 
 When everything works:
+
 - ✅ Backend health check returns OK
 - ✅ Frontend loads without errors
 - ✅ User can register/login
@@ -174,12 +197,14 @@ When everything works:
 ## 📈 Next Steps (Optional)
 
 ### Performance Optimization
+
 1. Enable CDN on Netlify
 2. Set up monitoring on Render
 3. Configure database indexes
 4. Add error tracking (Sentry)
 
 ### Additional Features
+
 1. Custom domain setup
 2. SSL certificate configuration
 3. Analytics integration
@@ -190,6 +215,7 @@ When everything works:
 ## 🆘 Need Help?
 
 If you encounter issues:
+
 1. Check deployment logs on both platforms
 2. Verify environment variables are set correctly
 3. Test API endpoints individually

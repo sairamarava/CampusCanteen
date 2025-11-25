@@ -16,6 +16,7 @@ This guide will walk you through deploying the Campus Canteen application with t
 ### Step 1: Prepare Backend for Deployment
 
 1. **Update Environment Variables**
+
    - Ensure your `.env` file has all required variables
    - Note: Don't commit the actual `.env` file to GitHub
 
@@ -33,15 +34,18 @@ This guide will walk you through deploying the Campus Canteen application with t
 ### Step 2: Deploy to Render
 
 1. **Login to Render**
+
    - Go to [render.com](https://render.com)
    - Sign in with GitHub
 
 2. **Create New Web Service**
+
    - Click "New" → "Web Service"
    - Connect your GitHub repository
    - Select the `backend` folder (or root if backend is in root)
 
 3. **Configure Service Settings**
+
    ```
    Name: campus-canteen-backend
    Environment: Node
@@ -51,6 +55,7 @@ This guide will walk you through deploying the Campus Canteen application with t
 
 4. **Set Environment Variables**
    In Render dashboard, add these environment variables:
+
    ```
    NODE_ENV=production
    PORT=10000
@@ -81,15 +86,18 @@ This guide will walk you through deploying the Campus Canteen application with t
 ### Step 2: Deploy to Netlify
 
 1. **Login to Netlify**
+
    - Go to [netlify.com](https://netlify.com)
    - Sign in with GitHub
 
 2. **Create New Site**
+
    - Click "Add new site" → "Import an existing project"
    - Connect your GitHub repository
    - Choose the repository
 
 3. **Configure Build Settings**
+
    ```
    Base directory: frontend
    Build command: npm run build
@@ -98,6 +106,7 @@ This guide will walk you through deploying the Campus Canteen application with t
 
 4. **Set Environment Variables**
    In Netlify dashboard → Site settings → Environment variables:
+
    ```
    VITE_API_URL=https://your-backend-app.onrender.com/api
    VITE_APP_NAME=Campus Canteen
@@ -118,12 +127,15 @@ Go back to your backend on Render and update the `FRONTEND_URL` environment vari
 ## ⚙️ Part 3: Final Configuration
 
 ### Step 1: Update Backend CORS
+
 Update your backend's `FRONTEND_URL` environment variable on Render with the actual Netlify URL.
 
 ### Step 2: Update Frontend API URL
+
 Update the production API URL in your frontend code with the actual Render backend URL.
 
 ### Step 3: Test the Application
+
 1. Visit your Netlify URL
 2. Test all functionality:
    - User registration/login
@@ -139,14 +151,17 @@ Update the production API URL in your frontend code with the actual Render backe
 ### Common Issues:
 
 1. **CORS Errors**
+
    - Ensure `FRONTEND_URL` in backend matches your Netlify URL exactly
    - Include protocol (https://)
 
 2. **API Connection Failed**
+
    - Verify the API URL in frontend matches your Render backend URL
    - Check if backend service is running on Render
 
 3. **Build Failures**
+
    - Check Node.js versions match
    - Ensure all dependencies are in package.json
    - Review build logs for specific errors
@@ -158,6 +173,7 @@ Update the production API URL in your frontend code with the actual Render backe
 ### Performance Optimization:
 
 1. **Backend (Render)**
+
    - Use environment variables properly
    - Enable gzip compression
    - Implement proper error handling

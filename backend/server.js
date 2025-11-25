@@ -20,29 +20,29 @@ app.use(
   cors({
     origin: process.env.FRONTEND_URL || "http://localhost:3000",
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(express.json());
 app.use(cookieParser());
 
 // Health check endpoint for monitoring
-app.get('/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
-    message: 'Campus Canteen Backend is running',
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "OK",
+    message: "Campus Canteen Backend is running",
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV 
+    environment: process.env.NODE_ENV,
   });
 });
 
 // Root endpoint
-app.get('/', (req, res) => {
-  res.json({ 
-    message: 'Campus Canteen API', 
-    version: '1.0.0',
-    docs: '/api' 
+app.get("/", (req, res) => {
+  res.json({
+    message: "Campus Canteen API",
+    version: "1.0.0",
+    docs: "/api",
   });
 });
 
@@ -90,10 +90,10 @@ app.use((err, req, res, next) => {
 });
 
 // Handle 404 routes
-app.use('*', (req, res) => {
+app.use("*", (req, res) => {
   res.status(404).json({
     success: false,
-    message: 'Route not found'
+    message: "Route not found",
   });
 });
 

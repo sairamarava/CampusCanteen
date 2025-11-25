@@ -3,6 +3,7 @@
 ## ✅ Pre-Deployment Tasks
 
 ### Backend Preparation
+
 - [ ] **.env file configured** with production values
 - [ ] **MongoDB Atlas** connection string ready
 - [ ] **JWT secret** generated and secure
@@ -12,6 +13,7 @@
 - [ ] **Error handling** properly implemented
 
 ### Frontend Preparation
+
 - [ ] **API URL** configured for production
 - [ ] **Environment variables** set up
 - [ ] **Build command** working locally
@@ -20,6 +22,7 @@
 - [ ] **Production optimizations** enabled in Vite config
 
 ### Database Setup
+
 - [ ] **MongoDB Atlas** cluster created
 - [ ] **Database user** with proper permissions
 - [ ] **IP whitelist** configured (0.0.0.0/0 for cloud deployment)
@@ -30,7 +33,9 @@
 ## 🚀 Deployment Steps
 
 ### 1. Backend Deployment (Render)
+
 1. **Push code to GitHub**
+
    ```bash
    git add .
    git commit -m "Prepare backend for deployment"
@@ -38,6 +43,7 @@
    ```
 
 2. **Deploy to Render**
+
    - Create new Web Service
    - Connect GitHub repository
    - Set build and start commands
@@ -49,11 +55,14 @@
    - Verify API endpoints work
 
 ### 2. Frontend Deployment (Netlify)
+
 1. **Update API URL in code**
+
    - Replace localhost with Render backend URL
    - Commit changes
 
 2. **Deploy to Netlify**
+
    - Import from GitHub
    - Set build settings
    - Configure environment variables
@@ -64,7 +73,9 @@
    - Test all features end-to-end
 
 ### 3. Final Configuration
+
 1. **Update CORS in backend**
+
    - Set `FRONTEND_URL` to actual Netlify URL
    - Redeploy backend if needed
 
@@ -77,6 +88,7 @@
 ## 🔧 Quick Commands
 
 ### Test Local Build
+
 ```bash
 # Frontend
 cd frontend
@@ -92,6 +104,7 @@ npm start
 ### Environment Variables Format
 
 **Backend (.env)**
+
 ```
 NODE_ENV=production
 PORT=10000
@@ -105,6 +118,7 @@ PREPARATION_TIME=30
 ```
 
 **Frontend (Netlify Environment)**
+
 ```
 VITE_API_URL=https://your-backend.onrender.com/api
 VITE_APP_NAME=Campus Canteen
@@ -116,14 +130,17 @@ VITE_NODE_ENV=production
 ## 🐛 Common Issues & Solutions
 
 1. **CORS Error**
+
    - Check FRONTEND_URL matches exactly
    - Include https:// protocol
 
 2. **Build Fails**
+
    - Verify Node.js versions
    - Check all dependencies installed
 
 3. **API Not Connecting**
+
    - Verify backend URL in frontend
    - Check backend is running
 
@@ -147,6 +164,7 @@ VITE_NODE_ENV=production
 ## 🎉 Success!
 
 When complete, you'll have:
+
 - ✨ **Frontend** running on Netlify with automatic deployments
 - 🚀 **Backend** running on Render with monitoring
 - 📊 **Database** on MongoDB Atlas
