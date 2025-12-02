@@ -12,7 +12,7 @@ const Footer = () => {
             transition={{ duration: 0.5 }}
             className="space-y-4"
           >
-            <h3 className="text-xl font-bold">CampusCanteen</h3>
+            <h3 className="text-xl font-bold">CampusBites</h3>
             <p className="text-gray-400">
               Your favorite campus food, delivered fast and fresh.
             </p>
