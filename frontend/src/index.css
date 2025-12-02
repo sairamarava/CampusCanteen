@@ -4,11 +4,11 @@
 
 /* Theme Colors */
 :root {
-  --color-primary: #0E4C4A;
+  --color-primary: #0e4c4a;
   --color-background-light: #ffffff;
   --color-background-dark: #112120;
-  --color-accent-gold: #C9A14A;
-  --color-text-primary: #1A1A1A;
+  --color-accent-gold: #c9a14a;
+  --color-text-primary: #1a1a1a;
 }
 
 /* Custom scroll behavior */
