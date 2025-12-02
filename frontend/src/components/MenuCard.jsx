@@ -14,7 +14,7 @@ const MenuCard = ({ item }) => {
 
   return (
     <motion.div
-      className="bg-white rounded-lg shadow-md overflow-hidden"
+      className="bg-light rounded-lg shadow-md overflow-hidden"
       whileHover={{ y: -5, transition: { duration: 0.2 } }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
@@ -66,8 +66,8 @@ const MenuCard = ({ item }) => {
               !isAuthenticated
                 ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                 : isItemInCart
-                ? "bg-green-500 text-white hover:bg-green-600"
-                : "bg-black text-white hover:bg-gray-800"
+                ? "bg-accent text-light hover:bg-primary"
+                : "bg-primary text-light hover:bg-dark"
             }`}
             onClick={async () => {
               if (!isAuthenticated) {

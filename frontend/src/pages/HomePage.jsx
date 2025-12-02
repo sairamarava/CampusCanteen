@@ -40,7 +40,7 @@ const HomePage = () => {
     <div className="bg-white">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center text-center">
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="absolute inset-0 bg-dark opacity-50"></div>
         <div className="relative z-10 px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -60,7 +60,7 @@ const HomePage = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => navigate("/login")}
-                  className="bg-white text-black px-8 py-3 rounded-md font-semibold"
+                  className="bg-light text-primary px-8 py-3 rounded-md font-semibold"
                 >
                   Login
                 </motion.button>
@@ -68,7 +68,7 @@ const HomePage = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => navigate("/register")}
-                  className="bg-black text-white px-8 py-3 rounded-md font-semibold"
+                  className="bg-primary text-light px-8 py-3 rounded-md font-semibold"
                 >
                   Sign Up
                 </motion.button>
@@ -78,7 +78,7 @@ const HomePage = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => navigate("/menu")}
-                className="bg-white text-black px-8 py-3 rounded-md font-semibold"
+                className="bg-light text-primary px-8 py-3 rounded-md font-semibold"
               >
                 Order Now
               </motion.button>
@@ -160,7 +160,7 @@ const HomePage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <motion.div variants={itemVariants} className="text-center">
-              <div className="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="bg-primary text-light w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
                 1
               </div>
               <h3 className="font-semibold mb-2">Create Account</h3>
@@ -168,7 +168,7 @@ const HomePage = () => {
             </motion.div>
 
             <motion.div variants={itemVariants} className="text-center">
-              <div className="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="bg-primary text-light w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
                 2
               </div>
               <h3 className="font-semibold mb-2">Browse Menu</h3>
@@ -176,7 +176,7 @@ const HomePage = () => {
             </motion.div>
 
             <motion.div variants={itemVariants} className="text-center">
-              <div className="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="bg-primary text-light w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
                 3
               </div>
               <h3 className="font-semibold mb-2">Place Order</h3>
@@ -184,7 +184,7 @@ const HomePage = () => {
             </motion.div>
 
             <motion.div variants={itemVariants} className="text-center">
-              <div className="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="bg-primary text-light w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
                 4
               </div>
               <h3 className="font-semibold mb-2">Enjoy Food</h3>
@@ -195,7 +195,7 @@ const HomePage = () => {
       </motion.section>
 
       {/* CTA Section */}
-      <section className="bg-black text-white py-16">
+      <section className="bg-primary text-light py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold mb-8">Ready to Order?</h2>
           <motion.button
@@ -204,7 +204,7 @@ const HomePage = () => {
             onClick={() =>
               isAuthenticated ? navigate("/menu") : navigate("/login")
             }
-            className="bg-white text-black px-8 py-3 rounded-md font-semibold"
+            className="bg-light text-primary px-8 py-3 rounded-md font-semibold"
           >
             {isAuthenticated ? "View Menu" : "Get Started"}
           </motion.button>
@@ -219,7 +219,7 @@ const HomePage = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate("/admin/login")}
-            className="text-black underline font-semibold"
+            className="text-primary underline font-semibold hover:text-accent"
           >
             Login to Admin Dashboard
           </motion.button>

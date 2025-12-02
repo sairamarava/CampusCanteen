@@ -22,8 +22,8 @@ const CartButton = () => {
     <>
       <motion.button
         onClick={() => setIsCartOpen(true)}
-        className={`fixed bottom-4 right-4 z-40 flex items-center justify-center p-4 bg-black text-white rounded-full shadow-lg hover:bg-gray-800 transition-colors ${
-          isHighlighted ? "ring-4 ring-green-400 ring-opacity-50" : ""
+        className={`fixed bottom-4 right-4 z-40 flex items-center justify-center p-4 bg-primary text-light rounded-full shadow-lg hover:bg-dark transition-colors ${
+          isHighlighted ? "ring-4 ring-accent ring-opacity-50" : ""
         }`}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
@@ -52,7 +52,7 @@ const CartButton = () => {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0 }}
-              className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs font-bold"
+              className="absolute -top-1 -right-1 bg-accent text-light rounded-full h-5 w-5 flex items-center justify-center text-xs font-bold"
             >
               {totalItems}
             </motion.span>

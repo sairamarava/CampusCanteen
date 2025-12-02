@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Theme Colors */
+:root {
+  --color-primary: #0E4C4A;
+  --color-background-light: #ffffff;
+  --color-background-dark: #112120;
+  --color-accent-gold: #C9A14A;
+  --color-text-primary: #1A1A1A;
+}
+
 /* Custom scroll behavior */
 html {
   scroll-behavior: smooth;
@@ -13,16 +22,16 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--color-background-light);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: var(--color-primary);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--color-background-dark);
 }
 
 /* Smooth transitions */
