@@ -11,6 +11,8 @@ const Checkout = () => {
   const { cartItems, getTotalPrice, clearCart } = useCart();
   const [loading, setLoading] = useState(false);
   const [lastOrderTime, setLastOrderTime] = useState(0);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
   const [formData, setFormData] = useState({
     rollNumber: user?.rollNumber || "",
     name: user?.name || "",
@@ -102,37 +104,30 @@ const Checkout = () => {
       // Create the order
       const response = await createOrder(orderData);
 
+      console.log("Order response:", response); // Debug log
+
       // Clear the cart only if order creation was successful
-      if (response.success) {
+      if (response && response.success && response.order) {
         await clearCart();
 
-        // Show success message with order number and tracking info
-        toast.success(
-          <div>
-            Order #{response.order.orderNumber} placed successfully!
-            <br />
-            Estimated ready time:{" "}
-            {new Date(
-              response.order.estimatedDeliveryTime
-            ).toLocaleTimeString()}
-          </div>,
-          {
-            duration: 5000,
-            icon: "🎉",
-          }
-        );
+        // Store order details and show modal
+        setOrderDetails({
+          orderNumber: response.order.orderNumber,
+          estimatedTime: new Date(
+            response.order.estimatedDeliveryTime
+          ).toLocaleTimeString(),
+        });
+        setShowSuccessModal(true);
 
         // Log order creation for analytics
         console.log("Order placed:", {
           orderId: response.order._id,
           orderNumber: response.order.orderNumber,
-          items: response.order.items.length,
+          items: response.order.items?.length || 0,
           total: response.order.totalAmount,
         });
-
-        // Navigate to order details page
-        navigate(`/orders/${response.order._id}`);
       } else {
+        console.error("Order creation failed:", response);
         toast.error("Failed to place order. Please try again.");
       }
     } catch (error) {
@@ -261,6 +256,37 @@ const Checkout = () => {
           {loading ? "Placing Order..." : "Place Order"}
         </button>
       </form>
+
+      {/* Success Modal */}
+      {showSuccessModal && orderDetails && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-8 text-center">
+            <div className="text-6xl mb-4">🎉</div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              Order Placed Successfully!
+            </h2>
+            <div className="text-gray-600 mb-2">
+              <p className="text-lg font-semibold text-primary">
+                Order #{orderDetails.orderNumber}
+              </p>
+            </div>
+            <div className="text-gray-600 mb-6">
+              <p className="text-sm">
+                Estimated ready time: <span className="font-medium">{orderDetails.estimatedTime}</span>
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                setShowSuccessModal(false);
+                navigate("/");
+              }}
+              className="w-full bg-primary text-white font-semibold py-3 px-6 rounded-lg hover:bg-primary-dark transition-colors"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
