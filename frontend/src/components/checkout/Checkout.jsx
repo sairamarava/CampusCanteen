@@ -272,7 +272,10 @@ const Checkout = () => {
             </div>
             <div className="text-gray-600 mb-6">
               <p className="text-sm">
-                Estimated ready time: <span className="font-medium">{orderDetails.estimatedTime}</span>
+                Estimated ready time:{" "}
+                <span className="font-medium">
+                  {orderDetails.estimatedTime}
+                </span>
               </p>
             </div>
             <button
