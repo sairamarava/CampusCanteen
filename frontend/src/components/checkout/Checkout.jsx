@@ -111,7 +111,7 @@ const Checkout = () => {
         await clearCart();
 
         // Calculate estimated time (15 minutes from now as default)
-        const estimatedTime = response.order.estimatedDeliveryTime 
+        const estimatedTime = response.order.estimatedDeliveryTime
           ? new Date(response.order.estimatedDeliveryTime).toLocaleTimeString()
           : new Date(Date.now() + 15 * 60000).toLocaleTimeString();
 
@@ -191,99 +191,107 @@ const Checkout = () => {
         </div>
       ) : (
         <div className="max-w-2xl mx-auto py-8 px-4">
-      <h1 className="text-2xl font-semibold text-gray-900 mb-8">Checkout</h1>
+          <h1 className="text-2xl font-semibold text-gray-900 mb-8">
+            Checkout
+          </h1>
 
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <h2 className="text-lg font-medium text-gray-900 mb-4">
-          Order Summary
-        </h2>
-        <div className="space-y-4">
-          {validCartItems.map((item) => (
-            <div
-              key={item.cartItemId || `${item._id}_${item.quantity}`}
-              className="flex justify-between items-center"
-            >
-              <div>
-                <p className="text-gray-800">{item.name}</p>
-                <p className="text-sm text-gray-500">
-                  Quantity: {parseInt(item.quantity) || 0}
-                </p>
+          <div className="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 className="text-lg font-medium text-gray-900 mb-4">
+              Order Summary
+            </h2>
+            <div className="space-y-4">
+              {validCartItems.map((item) => (
+                <div
+                  key={item.cartItemId || `${item._id}_${item.quantity}`}
+                  className="flex justify-between items-center"
+                >
+                  <div>
+                    <p className="text-gray-800">{item.name}</p>
+                    <p className="text-sm text-gray-500">
+                      Quantity: {parseInt(item.quantity) || 0}
+                    </p>
+                  </div>
+                  <p className="text-gray-800">
+                    ₹
+                    {(parseFloat(item.price) * parseInt(item.quantity)).toFixed(
+                      2
+                    )}
+                  </p>
+                </div>
+              ))}
+              <div className="border-t pt-4">
+                <div className="flex justify-between items-center font-semibold">
+                  <p>Total</p>
+                  <p>₹{getTotalPrice()}</p>
+                </div>
               </div>
-              <p className="text-gray-800">
-                ₹{(parseFloat(item.price) * parseInt(item.quantity)).toFixed(2)}
-              </p>
-            </div>
-          ))}
-          <div className="border-t pt-4">
-            <div className="flex justify-between items-center font-semibold">
-              <p>Total</p>
-              <p>₹{getTotalPrice()}</p>
             </div>
           </div>
-        </div>
-      </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-lg font-medium text-gray-900 mb-4">
-          Student Details
-        </h2>
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white rounded-lg shadow p-6"
+          >
+            <h2 className="text-lg font-medium text-gray-900 mb-4">
+              Student Details
+            </h2>
 
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Roll Number
-            </label>
-            <input
-              type="text"
-              name="rollNumber"
-              value={formData.rollNumber}
-              onChange={handleChange}
-              required
-              placeholder="Enter your roll number"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
-            />
-          </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Roll Number
+                </label>
+                <input
+                  type="text"
+                  name="rollNumber"
+                  value={formData.rollNumber}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your roll number"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
+                />
+              </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              placeholder="Enter your name"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
-            />
-          </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your name"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
+                />
+              </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Payment Method
-            </label>
-            <select
-              name="paymentMethod"
-              value={formData.paymentMethod}
-              onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Payment Method
+                </label>
+                <select
+                  name="paymentMethod"
+                  value={formData.paymentMethod}
+                  onChange={handleChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
+                >
+                  <option value="CASH">Cash on Delivery</option>
+                  <option value="UPI">UPI</option>
+                </select>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading || cartItems.length === 0}
+              className="mt-6 w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
             >
-              <option value="CASH">Cash on Delivery</option>
-              <option value="UPI">UPI</option>
-            </select>
-          </div>
+              {loading ? "Placing Order..." : "Place Order"}
+            </button>
+          </form>
         </div>
-
-        <button
-          type="submit"
-          disabled={loading || cartItems.length === 0}
-          className="mt-6 w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
-        >
-          {loading ? "Placing Order..." : "Place Order"}
-        </button>
-      </form>
-    </div>
       )}
     </>
   );
