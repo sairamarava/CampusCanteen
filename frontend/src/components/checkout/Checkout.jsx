@@ -107,15 +107,18 @@ const Checkout = () => {
       console.log("Order response:", response); // Debug log
 
       // Clear the cart only if order creation was successful
-      if (response && response.success && response.order) {
+      if (response && response.order) {
         await clearCart();
+
+        // Calculate estimated time (15 minutes from now as default)
+        const estimatedTime = response.order.estimatedDeliveryTime 
+          ? new Date(response.order.estimatedDeliveryTime).toLocaleTimeString()
+          : new Date(Date.now() + 15 * 60000).toLocaleTimeString();
 
         // Store order details and show modal
         setOrderDetails({
-          orderNumber: response.order.orderNumber,
-          estimatedTime: new Date(
-            response.order.estimatedDeliveryTime
-          ).toLocaleTimeString(),
+          orderNumber: response.order.orderNumber || "N/A",
+          estimatedTime: estimatedTime,
         });
         setShowSuccessModal(true);
 
@@ -143,27 +146,51 @@ const Checkout = () => {
     (item) => item && item._id && item.quantity > 0
   );
 
-  if (validCartItems.length === 0) {
-    return (
-      <div className="max-w-2xl mx-auto py-8 px-4 text-center">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-4">
-          Your cart is empty
-        </h1>
-        <p className="text-gray-600 mb-8">
-          Add some items to your cart to proceed with checkout.
-        </p>
-        <button
-          onClick={() => navigate("/menu")}
-          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-        >
-          Browse Menu
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <div className="max-w-2xl mx-auto py-8 px-4">
+    <>
+      {/* Success Modal - Render at top level so it shows even when cart is empty */}
+      {showSuccessModal && orderDetails && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-8 text-center">
+            <div className="text-6xl mb-4">🎉</div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              Order Placed Successfully!
+            </h2>
+            <div className="text-gray-600 mb-6">
+              <p className="text-lg font-semibold text-primary">
+                Order #{orderDetails.orderNumber}
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                setShowSuccessModal(false);
+                navigate("/");
+              }}
+              className="w-full bg-primary text-white font-semibold py-3 px-6 rounded-lg hover:bg-primary-dark transition-colors"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
+
+      {validCartItems.length === 0 ? (
+        <div className="max-w-2xl mx-auto py-8 px-4 text-center">
+          <h1 className="text-2xl font-semibold text-gray-900 mb-4">
+            Your cart is empty
+          </h1>
+          <p className="text-gray-600 mb-8">
+            Add some items to your cart to proceed with checkout.
+          </p>
+          <button
+            onClick={() => navigate("/menu")}
+            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+          >
+            Browse Menu
+          </button>
+        </div>
+      ) : (
+        <div className="max-w-2xl mx-auto py-8 px-4">
       <h1 className="text-2xl font-semibold text-gray-900 mb-8">Checkout</h1>
 
       <div className="bg-white rounded-lg shadow p-6 mb-6">
@@ -256,41 +283,9 @@ const Checkout = () => {
           {loading ? "Placing Order..." : "Place Order"}
         </button>
       </form>
-
-      {/* Success Modal */}
-      {showSuccessModal && orderDetails && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-8 text-center">
-            <div className="text-6xl mb-4">🎉</div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              Order Placed Successfully!
-            </h2>
-            <div className="text-gray-600 mb-2">
-              <p className="text-lg font-semibold text-primary">
-                Order #{orderDetails.orderNumber}
-              </p>
-            </div>
-            <div className="text-gray-600 mb-6">
-              <p className="text-sm">
-                Estimated ready time:{" "}
-                <span className="font-medium">
-                  {orderDetails.estimatedTime}
-                </span>
-              </p>
-            </div>
-            <button
-              onClick={() => {
-                setShowSuccessModal(false);
-                navigate("/");
-              }}
-              className="w-full bg-primary text-white font-semibold py-3 px-6 rounded-lg hover:bg-primary-dark transition-colors"
-            >
-              OK
-            </button>
-          </div>
-        </div>
-      )}
     </div>
+      )}
+    </>
   );
 };
 
