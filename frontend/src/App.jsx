@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import Navbar from "./components/Navbar";
@@ -15,59 +15,68 @@ import { ProtectedRoute, AdminRoute } from "./components/ProtectedRoute";
 import Footer from "./components/Footer";
 import CartButton from "./components/CartButton";
 
+const AppContent = () => {
+  const location = useLocation();
+  const hideNavAndFooter = ['/login', '/register', '/admin/login'].includes(location.pathname);
+
+  return (
+    <div className="min-h-screen bg-white">
+      {!hideNavAndFooter && <Navbar />}
+
+      <main className={hideNavAndFooter ? "" : "pt-16"}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/menu" element={<MenuPage />} />
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute>
+                <CartPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute>
+                <CheckoutPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            }
+          />
+        </Routes>
+      </main>
+
+      {!hideNavAndFooter && <Footer />}
+      {!hideNavAndFooter && <CartButton />}
+    </div>
+  );
+};
+
 const App = () => {
   return (
     <Router>
       <AuthProvider>
         <CartProvider>
-          <div className="min-h-screen bg-white">
-            <Navbar />
-
-            <main className="pt-16">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/menu" element={<MenuPage />} />
-                <Route path="/admin/login" element={<AdminLoginPage />} />
-                <Route
-                  path="/cart"
-                  element={
-                    <ProtectedRoute>
-                      <CartPage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/profile"
-                  element={
-                    <ProtectedRoute>
-                      <ProfilePage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/checkout"
-                  element={
-                    <ProtectedRoute>
-                      <CheckoutPage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/admin/dashboard"
-                  element={
-                    <AdminRoute>
-                      <AdminDashboard />
-                    </AdminRoute>
-                  }
-                />
-              </Routes>
-            </main>
-
-            <Footer />
-            <CartButton />
-          </div>
+          <AppContent />
         </CartProvider>
       </AuthProvider>
     </Router>
