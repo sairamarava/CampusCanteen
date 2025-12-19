@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import Navbar from "./components/Navbar";
@@ -17,7 +22,9 @@ import CartButton from "./components/CartButton";
 
 const AppContent = () => {
   const location = useLocation();
-  const hideNavAndFooter = ['/login', '/register', '/admin/login'].includes(location.pathname);
+  const hideNavAndFooter = ["/login", "/register", "/admin/login"].includes(
+    location.pathname
+  );
 
   return (
     <div className="min-h-screen bg-white">
