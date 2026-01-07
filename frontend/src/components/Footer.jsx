@@ -12,7 +12,7 @@ const Footer = () => {
             transition={{ duration: 0.5 }}
             className="space-y-4"
           >
-            <h3 className="text-xl font-bold">CampusBites</h3>
+            <h3 className="text-xl font-bold">Ekdant's Cafe</h3>
             <p className="text-gray-400">
               Your favorite campus food, delivered fast and fresh.
             </p>
@@ -121,7 +121,7 @@ const Footer = () => {
           >
             <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-2 text-gray-400">
-              <li>Email: support@campuscanteen.com</li>
+              <li>Email: support@ekdantscafe.com</li>
               <li>Phone: (555) 123-4567</li>
               <li>Address: University Campus, Building A</li>
             </ul>
@@ -136,7 +136,7 @@ const Footer = () => {
           className="mt-12 pt-8 border-t border-gray-800 text-center text-gray-400"
         >
           <p>
-            &copy; {new Date().getFullYear()} CampusCanteen. All rights
+            &copy; {new Date().getFullYear()} Ekdant's Cafe. All rights
             reserved.
           </p>
         </motion.div>

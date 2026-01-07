@@ -12,11 +12,11 @@ const AboutSection = () => {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl font-bold text-black mb-6">
-              About CampusCanteen
+              About Ekdant's Cafe
             </h2>
             <div className="space-y-4 text-gray-600">
               <p>
-                CampusCanteen is your go-to platform for ordering delicious food
+                Ekdant's Cafe is your go-to platform for ordering delicious food
                 from your favorite campus spots. We bring the convenience of
                 food delivery right to your classroom or dorm.
               </p>

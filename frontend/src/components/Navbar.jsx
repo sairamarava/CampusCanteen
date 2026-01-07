@@ -22,8 +22,8 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <span className="text-2xl font-bold text-primary">Campus</span>
-              <span className="text-2xl font-bold text-accent">Bites</span>
+              <span className="text-2xl font-bold text-primary">Ekdant's</span>
+              <span className="text-2xl font-bold text-accent"> Cafe</span>
             </Link>
           </div>
 

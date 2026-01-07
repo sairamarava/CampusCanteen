@@ -54,7 +54,7 @@ const LoginPage = () => {
               <path d="M8.5 8.5c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5zm7 0c-.28 0-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5zM12 17.5c2.33 0 4.32-1.45 5.12-3.5H6.88c.8 2.05 2.79 3.5 5.12 3.5z" />
             </svg>
           </div>
-          <h1 className="text-4xl font-bold text-white mb-2">CampusBites</h1>
+          <h1 className="text-4xl font-bold text-white mb-2">Ekdant's Cafe</h1>
           <p className="text-gray-300 text-lg">
             Delicious meals at your fingertips
           </p>
