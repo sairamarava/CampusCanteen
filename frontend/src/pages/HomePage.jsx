@@ -39,32 +39,32 @@ const HomePage = () => {
   const featuredItems = [
     {
       id: 1,
-      name: "Chicken Wings",
-      description: "Spicy chicken wings with blue cheese dipping sauce",
-      price: "$9.99",
-      prepTime: "12 min",
+      name: "Classic Grilled Sandwich",
+      description: "Perfectly grilled sandwich with fresh vegetables and cheese, toasted to golden perfection",
+      price: "₹35",
+      prepTime: "10 min",
       image:
-        "https://images.unsplash.com/photo-1608039755401-742074f0548d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+        "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800",
       featured: true,
     },
     {
       id: 2,
-      name: "Pizza Margherita",
-      description: "Fresh tomato sauce, mozzarella, and basil",
-      price: "$12.99",
-      prepTime: "15 min",
+      name: "Garden Fresh Vegetable Roll",
+      description: "Crispy roll stuffed with fresh garden vegetables and aromatic spices",
+      price: "₹40",
+      prepTime: "12 min",
       image:
-        "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+        "https://images.unsplash.com/photo-1600850056064-a8b380df8395?w=800",
       featured: true,
     },
     {
       id: 3,
-      name: "Caesar Salad",
-      description: "Crisp romaine lettuce with caesar dressing and croutons",
-      price: "$8.99",
-      prepTime: "8 min",
+      name: "Savory Chicken Roll",
+      description: "Tender chicken pieces wrapped in a crispy roll with signature spices",
+      price: "₹45",
+      prepTime: "15 min",
       image:
-        "https://images.unsplash.com/photo-1546793665-c74683f339c1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+        "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=800",
       featured: true,
     },
   ];
