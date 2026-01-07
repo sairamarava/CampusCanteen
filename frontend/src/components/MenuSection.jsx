@@ -4,26 +4,25 @@ import { useState } from "react";
 const MenuSection = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const categories = ["All", "Breakfast", "Lunch", "Snacks", "Beverages"];
+  const categories = ["All", "Signature Wraps & Bites", "Wholesome Bowls & Greens", "The Brew Bar", "Sweet Indulgences"];
 
   const menuItems = [
     {
       id: 1,
-      name: "Classic Burger",
-      price: 5.99,
-      category: "Lunch",
-      image: "/images/burger.jpg",
-      description: "Juicy beef patty with fresh vegetables",
+      name: "Classic Grilled Sandwich",
+      price: 35,
+      category: "Signature Wraps & Bites",
+      image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800",
+      description: "Perfectly grilled sandwich with fresh vegetables and cheese",
     },
     {
       id: 2,
-      name: "Masala Dosa",
-      price: 3.99,
-      category: "Breakfast",
-      image: "/images/dosa.jpg",
-      description: "Crispy dosa with potato filling",
+      name: "Artisanal Masala Chai",
+      price: 20,
+      category: "The Brew Bar",
+      image: "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=800",
+      description: "Traditional Indian chai brewed with aromatic spices",
     },
-    // Add more menu items as needed
   ];
 
   const filteredItems =

@@ -20,7 +20,7 @@ const menuItemSchema = new mongoose.Schema(
     category: {
       type: String,
       required: [true, "Category is required"],
-      enum: ["Breakfast", "Lunch", "Snacks", "Dinner", "Beverages"],
+      enum: ["Signature Wraps & Bites", "Wholesome Bowls & Greens", "The Brew Bar", "Sweet Indulgences"],
     },
     image: {
       type: String,

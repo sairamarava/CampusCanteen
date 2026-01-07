@@ -7,11 +7,10 @@ import { useCart } from "../context/CartContext";
 const MenuPage = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [categories, setCategories] = useState([
-    "Breakfast",
-    "Lunch",
-    "Snacks",
-    "Beverages",
-    "Dinner",
+    "Signature Wraps & Bites",
+    "Wholesome Bowls & Greens",
+    "The Brew Bar",
+    "Sweet Indulgences",
   ]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
