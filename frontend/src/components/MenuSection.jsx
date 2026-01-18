@@ -4,7 +4,7 @@ import { useState } from "react";
 const MenuSection = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const categories = ["All", "Signature Wraps & Bites", "Wholesome Bowls & Greens", "The Brew Bar", "Sweet Indulgences"];
+  const categories = ["All", "Signature Wraps & Bites", "Wholesome Bowls & Greens", "The Brew Bar", "Sweet Indulgences", "Waffles", "Snacks"];
 
   const menuItems = [
     {

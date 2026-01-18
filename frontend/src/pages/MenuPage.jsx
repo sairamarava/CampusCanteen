@@ -11,6 +11,8 @@ const MenuPage = () => {
     "Wholesome Bowls & Greens",
     "The Brew Bar",
     "Sweet Indulgences",
+    "Waffles",
+    "Snacks",
   ]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
