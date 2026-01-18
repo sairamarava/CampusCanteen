@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import CartModal from "./CartModal";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const { isAuthenticated, logout, user } = useAuth();
   const navigate = useNavigate();
   const { cartItems, getTotalItems } = useCart();
@@ -47,8 +49,8 @@ const Navbar = () => {
             >
               About
             </Link>
-            <Link
-              to="/cart"
+            <button
+              onClick={() => setIsCartOpen(true)}
               className="text-gray-600 hover:text-primary transition-colors"
             >
               <div className="relative">
@@ -79,7 +81,7 @@ const Navbar = () => {
                   )}
                 </AnimatePresence>
               </div>
-            </Link>
+            </button>
             <Link
               to="/profile"
               className="text-gray-600 hover:text-primary transition-colors"
@@ -180,9 +182,12 @@ const Navbar = () => {
             >
               About
             </Link>
-            <Link
-              to="/cart"
-              className="block px-3 py-2 text-gray-600 hover:text-primary transition-colors"
+            <button
+              onClick={() => {
+                setIsCartOpen(true);
+                setIsOpen(false);
+              }}
+              className="w-full text-left block px-3 py-2 text-gray-600 hover:text-primary transition-colors"
             >
               <div className="flex items-center justify-between">
                 <span>Cart</span>
@@ -196,7 +201,7 @@ const Navbar = () => {
                   </motion.span>
                 )}
               </div>
-            </Link>
+            </button>
             <Link
               to="/profile"
               className="block px-3 py-2 text-gray-600 hover:text-primary transition-colors"
@@ -225,6 +230,9 @@ const Navbar = () => {
           </div>
         </motion.div>
       )}
+      
+      {/* Cart Modal */}
+      <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </motion.nav>
   );
 };
